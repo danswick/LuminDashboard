@@ -1,0 +1,18 @@
+{
+  "name": "node_server",
+  "version": "0.0.0",
+  "description": "Shuttlign data between parse and sensors",
+  "main": "webPost.js",
+  "dependencies": {
+    "body-parser": "~1.9.2",
+    "express": "~4.10.1",
+    "fs": "~0.0.2",
+    "parse": "1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "david sjunnesson",
+  "license": "BSD-2-Clause"
+}

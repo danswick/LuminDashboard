@@ -1,0 +1,340 @@
+@font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+@font-face { font-family: AvenirDemi; src: url('AvenirNextLTPro-Demi.otf'); } 
+@font-face { font-family: AvenirMedium; src: url('AvenirNextLTPro-Medium.otf'); } 
+
+body {
+  /*padding-top:50px;*/
+  width: 100%;
+  background-color: #F2F2F2;
+}
+.make-it-white{
+	background-color: #ffffff;
+	margin-left: auto; 
+	margin-right: auto;
+	width: 95%;
+}
+
+.make-it-proper-width{
+	width: 95%;
+}
+.container-fluid{
+	  border-style: none;
+	  width: 100%;
+	  padding-right: 0px;
+	  padding-left: 0px;
+}
+.navbar-default{ /* assigning the top bar to the entire navbar div element */
+    text-align: center;
+    box-shadow: none;
+}
+.navbar-header{
+	background: #687079;
+	outline: none;
+	border: none;
+	padding-bottom: 0px;
+	padding-top: 10px;
+	height: 50px;
+}
+.navbar-brand{
+	margin-left: auto; 
+	margin-right: auto;
+	width: 100%;
+	padding-top: 25px;
+}
+
+.navbar-inverse{
+	background-color: #00ff00;
+	border:none;
+	margin-bottom: 0;
+}
+.navbar-inverse .navbar-brand{
+	text-align: center;
+	color:#ffffff;
+	margin-left: auto; 
+	margin-right: auto;
+	font-family: Avenir;
+	font-size: 18px;
+}
+
+
+.visualizationSection {
+  padding: 0px 0px;
+  text-align: center;
+    background: #ffffff;
+    margin-left: auto; 
+	margin-right: auto;
+	width: 95%;
+}
+.vizDivider {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+ height: 10px;
+ padding: 0;
+  background: #F2F2F2;
+  text-align: center;
+}
+.billForecast{
+	font-family: Avenir;
+	font-size: 15px;
+	color: #b3b3b3;
+}
+
+.arc path {
+  stroke: #ffffff;
+}
+.label-text{
+	font-family: Avenir;
+	font-size: 13px;
+}
+.label-text-center{
+	font-family: Avenir;
+	font-size: 13px;
+	color : #b3b3b3;
+}
+.label-text-center-demi{
+	font-family: AvenirDemi;
+	font-size: 13px;
+	color : #b3b3b3;
+}
+
+.forecast{
+	width: 100%;
+	margin-left: auto; 
+	margin-right: auto;
+	font-family: Avenir;
+	font-size: 12px;
+	background-color: #ffffff;
+}
+.forecast-wrapper{
+		margin-left: auto; 
+	margin-right: auto;
+	width: 90%;
+}
+.progress{
+	height:8px;
+	margin-bottom: 0;
+	background-image:  linear-gradient(to bottom, #96BB33 0%, #96BB33 100%);
+	box-shadow: none;
+}
+.progress-bar-forecast{
+	background-image:  linear-gradient(to bottom, #648C3D 0%, #648C3D 100%);
+}
+
+.progress-bar-container{
+	padding-top: 28px;
+	height: 38px;
+	padding-bottom: 35px;
+}
+.forecastBody{
+	height:120px;
+}
+
+.forecast-label-so-far{
+	padding-top: 10px;
+	text-align: left;
+	float: left;
+	color:#648C3D;
+	font-family: Avenir;
+	font-size: 12px;
+}
+.forecast-label-so-far-value{
+	padding-top: 10px;
+	text-align: left;
+	float: left;
+	color:#648C3D;
+	font-family: AvenirDemi;
+	font-size: 12px;
+}
+
+.forecast-label-total{
+	font-family: Avenir;
+	font-size: 12px;
+	padding-top: 10px;
+	text-align: right;
+	float: right;
+	color : #96BB33;
+	padding-left: 2px;
+}
+
+.forecast-label-total-value{
+	font-family: AvenirDemi;
+}
+
+.nav-tabs-app{
+	margin-left: auto;
+    margin-right: auto;
+	width: 95%;
+	height: 30px;
+
+	border: 10px;
+		-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+	
+}
+
+.nav-tabs-app-tab{
+	width: 33.333%;
+	height: 30px;
+}
+
+.nav-tabs-app-tab.active{
+	color: #ffffff;
+}
+.nav-tabs>li{
+	margin-bottom: 0;
+	font-family: AvenirMedium;
+	font-size: 14px;
+
+}
+.nav-tabs>li>a{
+	height: 30px;
+	padding-top: 6px;
+	border-color: #6BA2B9;
+	margin-right: 0;
+	background: white;
+	color:#6BA2B9;
+	border-radius: 0px;
+
+}
+
+.tab-center{
+	border-radius: 0px;
+}
+
+.nav-tabs>li.active>a{
+	background: #6BA2B9;
+	border-color: #6BA2B9;
+	border: 1px;
+	border-style: solid;
+	color: white;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+	border-color: #6BA2B9;
+	background-color:#6BA2B9; 
+	color: white;
+}
+.nav-tabs>li>a:hover, .nav-tabs>li>a:focus{
+	border-color: #6BA2B9;
+	background-color: transparent;
+  	color:#6BA2B9;
+}
+
+
+.soFarFloatingClass{
+	z-index: 1;
+    position: absolute; /*newly added*/
+    right: 5px; /*newly added*/
+    top: 5px;/*newly added*/
+}
+
+
+.soFar-Label{
+	font-family: Avenir;
+	font-size: 13px;
+}
+.soFar-Label.number{
+	font-family: AvenirDemi;
+	font-size: 13px;
+}
+
+.c3-texts-weekData{
+	font-size: 10px;
+	font-family: Avenir;
+ }
+
+ .c3-text{
+ 	fill:rgb(255,0,0);
+ }
+
+ #weekGraph{
+ 	/*margin-bottom: 30px;*/
+ }
+ .weekDateLabel{
+ 	padding-top: 10px;
+ 	font-family: Avenir;
+ 	font-size: 13px;
+ 	color: #b3b3b3;
+ }
+
+ #topLogo{
+ 	padding-top: 5px;
+ 	padding-left: 10px;
+ }
+
+ /*CALENDAR CHART */
+
+#calendarChart{
+	height: 250px;
+	width: 100%;
+	background: #ffffff;
+}
+
+.label-text-center-calendar{
+	font-family: Avenir;
+	font-size: 12px;
+	color : #ffffff;
+}
+
+.label-text-center-calendar-speechBubble{
+	font-family: AvenirDemi;
+	font-size: 12px;
+}
+
+/*BUDGET GOAL*/
+.label-text-center-goal-date{
+	font-family: AvenirDemi;
+	font-size: 13px;
+	color : #b3b3b3;
+}
+
+/*HEADER*/
+.module-header{
+	font-family: Avenir;
+	font-size: 15px;
+	color: #787878;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.forecastHead{
+	padding-bottom: 0px;
+}
+
+.pieChartLabelSpacer{
+	height: 30px;
+	width: 100%;
+	padding-bottom: 40px;
+}
+
+.barGraphSpacer{
+	height: 50px;
+	padding-top: 10px;
+}
+
+
+.dayGraphSpacer{
+	height: 90px;
+	width: 100%;
+	padding-top: 10px;
+}
+
+.AMPMSpacer{
+	width:100%;
+	height: 20px;
+}
+.smallLabelFonts{
+	 font-family: Avenir;
+ 	font-size: 13px;
+ 	color: #b3b3b3;
+}
+
+.forecastMonthLabel{
+	height: 20px;
+	/*width: 100%;*/
+}
+
+.c3-chart-text{
+	c
+}

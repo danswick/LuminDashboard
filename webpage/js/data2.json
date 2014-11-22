@@ -1,0 +1,26 @@
+[{
+	"name": "AC",
+	"value": 0.35,
+	"color": "#00A8AB",
+	"icon" : "washer.svg"
+}, {
+	"name": "Washer",
+	"value": 0.618,
+	"color": "#C25700",
+	"icon" : "washer.svg"
+}, {
+	"name": "Fridge",
+	"value": 0.18,
+	"color": "#0071AD",
+	"icon" : "washer.svg"
+}, {
+	"name": "Lights",
+	"value": 0.64,
+	"color": "#D88D2A",
+	"icon" : "washer.svg"
+}, {
+	"name": "Other",
+	"value": 0.922,
+	"color": "#787878",
+	"icon" : "washer.svg"
+}]

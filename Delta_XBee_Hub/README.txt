@@ -1,0 +1,1 @@
+Delta_XBee_Hub.ino contains the EtherMega code for the Delta hub receiver. This sketch requires the Arduino Ethernet library, so please make sure this is added to the Arduino Library before compiling.

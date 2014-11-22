@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Delta Lumin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/c3/c3.css" rel="stylesheet">
+
+    <link href="css/customTheme.css" rel="stylesheet">
+
+    <!-- <link href="css/c3/style.css" rel="stylesheet"> -->
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-static" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- <div class="navbar-brand">Usage Dashboard</div> -->
+                <div id="topLogo">
+                    <img src="images/logo-01.png" height="15" width="141">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="vizDivider"></div>
+        <div class="visualizationSection">
+            <div id="calendarChart-header" class="module-header">Bill Forecast</div>
+            <div id="calendarChart"></div>
+        </div>
+        <div class="vizDivider"></div>
+
+        <div class="visualizationSection make-it-proper-width forecastBody">
+            <div id="forecastHeader" class="module-header forecastHead">Savings Goal</div>
+            <div id="forecastMonthLabel" class="forecastMonthLabel smallLabelFonts">This Month $70</div>
+            <div class="forecast-wrapper">
+                <div class="forecast-label-so-far">Spent:</div>
+                <div id="forecastSoFarLabelValue" class="forecast-label-so-far-value"></div>
+                <div id="forecastTotalLabel" class="forecast-label-total">Left</div>
+                <div id="forecastTotalLabelValue" class="forecast-label-total forecast-label-total-value"></div>
+
+                <div id="forecast" class="progress-bar-container">
+                    <div class="progress">
+                        <div id="forecastProgressBar" class="progress-bar progress-bar-forecast" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="make-it-white" id="forecastToday"></div>
+    <div class="vertical-line" /></div>
+    </div>
+    <div class="vizDivider"></div>
+
+    <div class="visualizationSection">
+        <div id="calendarChart-header" class="module-header">Usage History</div>
+
+        <ul class="nav nav-tabs nav-tabs-app" role="tablist">
+            <li role="presentation" class=" active nav-tabs-app-tab"><a class="tab-left" href="#Today" role="tab" data-toggle="tab">Today</a>
+            </li>
+            <li role="presentation" class=" nav-tabs-app-tab tab-center"><a class="tab-center" href="#Week" role="tab" data-toggle="tab">Weekly</a>
+            </li>
+            <li role="presentation" class=" nav-tabs-app-tab"><a class="tab-right" href="#Month" role="tab" data-toggle="tab">Monthly</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="Today">
+                <!-- <div class="dayGraphSpacer"></div> -->
+                <div id="dayDateLabel" class="dayGraphSpacer smallLabelFonts"></div>
+
+                <div id="dayGraph"></div>
+                <div id="soFarHighlight" class="soFarFloatingClass"></div>
+                <div id="dayGraphAMPM" class="AMPMSpacer"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane " id="Week">
+                <div id="weekDateLabel" class="barGraphSpacer smallLabelFonts"></div>
+                <div id="weekGraph"></div>
+                <div class="AMPMSpacer"></div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane " id="Month">
+                <div id="monthDateLabel" class="barGraphSpacer smallLabelFonts"></div>
+                <div id="monthGraph"></div>
+                <div class="AMPMSpacer"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="viz2" class="visualizationSection">
+        <div id="pieChartLabel" class="pieChartLabelSpacer smallLabelFonts"></div>
+        <div id="pieChart"></div>
+    </div>
+
+    <!-- <image src="images/test.png" id="testImage" /> -->
+
+    </div>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/c3.js"></script>
+    <script src="js/jquery.currency.js"></script>
+    <script src="js/parse-1.3.1.min.js"></script>
+
+    <!-- <script src="js/d3pie.js"></script> -->
+
+    <script src="js/money.js"></script>
+    <script src="js/piechart.js"></script>
+    <script src="js/forecast.js"></script>
+    <script src="js/lineChart.js"></script>
+    <script src="js/weekChart.js"></script>
+    <script src="js/monthChart.js"></script>
+    <script src="js/calendarChart.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/parse.js"></script>
+
+</body>
+
+</html>
