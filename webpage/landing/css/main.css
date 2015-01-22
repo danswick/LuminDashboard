@@ -130,7 +130,6 @@ header h4 {
 
 #content a {
     color: #fff;
-    text-decoration: none;
     font-weight: 800;
 }
 
@@ -146,6 +145,15 @@ header h4 {
     display: inline-block;
     margin: 0px 0px 35px 0px;
     background-color: #98bdce;
+}
+
+#survey-button a {
+    text-decoration: none;
+}
+
+p #survey-button {
+    margin-bottom: 0px;
+    text-decoration: none;
 }
 
 #survey-button:hover {
