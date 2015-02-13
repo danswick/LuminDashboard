@@ -10,7 +10,7 @@ var colors = {
 	selected:"#6BA2B9",
 };
 
-var bill = {
+/*var bill = {
 	electricSupplyCharge: 0.06473,
 	transmissionServicesCharge: 0.01014,
 	purschasedElectricityAdjustment: -1.17,
@@ -28,7 +28,7 @@ var bill = {
 
 	monthTotalKwh: 360,
 	savingsGoal:70,
-}
+}*/
 
 	function getDayTotal() {
 		var total = (getMonthTotal() / daysInMonth(date.getMonth() + 1, date.getYear()));
@@ -41,9 +41,9 @@ var bill = {
 	}
 
 	function getMonthTotal() {
-		var supply = bill.monthTotalKwh * bill.electricSupplyCharge + bill.monthTotalKwh * bill.transmissionServicesCharge + bill.purschasedElectricityAdjustment;
-		var delivery = bill.customerCharge + bill.standardMeterCharge + bill.monthTotalKwh * bill.distributionFacilitiesCharge + bill.monthTotalKwh * bill.ILDistributionCharge;
-		var taxesFees = bill.monthTotalKwh * bill.enviromentalCostRecoveryAdjustment + bill.monthTotalKwh * bill.energyEfficientProgram + bill.franchiseCost + bill.stateTax + bill.municipalTax;
+		var supply = dashboardData[0].monthTotalKwh * dashboardData[0].electricSupplyCharge + dashboardData[0].monthTotalKwh * dashboardData[0].transmissionServicesCharge + dashboardData[0].purschasedElectricityAdjustment;
+		var delivery = dashboardData[0].customerCharge + dashboardData[0].standardMeterCharge + dashboardData[0].monthTotalKwh * dashboardData[0].distributionFacilitiesCharge + dashboardData[0].monthTotalKwh * dashboardData[0].ILDistributionCharge;
+		var taxesFees = dashboardData[0].monthTotalKwh * dashboardData[0].enviromentalCostRecoveryAdjustment + dashboardData[0].monthTotalKwh * dashboardData[0].energyEfficientProgram + dashboardData[0].franchiseCost + dashboardData[0].stateTax + dashboardData[0].municipalTax;
 		var total = supply + delivery + taxesFees;
 		return total.toFixed(2);
 	}
