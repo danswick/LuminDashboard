@@ -107,4 +107,825 @@ $("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardDa
 
 
 
+
+/* 
+========================================
+PIE CHART
+below 
+========================================
+*/
+
+var cDim = {
+	height: vizWidth / 1.5,
+	width: vizWidth - 10,
+	innerRadius: vizWidth * 0.22,
+	outerRadius: vizWidth * 0.24,
+	labelRadius: vizWidth * 0.29,
+	leftLabelX: -vizWidth * 0.3,
+	rightLabelX: vizWidth * 0.29,
+	labelPadding: 5,
+	labelOffsetY: 7,
+}
+var pieCenterLabel, pieCenterMoney;
+
+// var color = d3.scale.ordinal()
+// 	.range(["#00A8AB", "#C25700", "#787878", "#D88D2A", "#0071AD"]);
+
+var arc = d3.svg.arc()
+	.outerRadius(cDim.outerRadius)
+	.innerRadius(cDim.innerRadius);
+
+var pie = d3.layout.pie()
+	.sort(null)
+	.value(function(d) {
+		return d.value;
+	});
+
+var centerLabelAdded = false;
+
+
+function createPieChart(jsonFile, label, money) {
+
+	// clear out the previous pie chart if it exists
+	var myNode = document.getElementById("pieChart");
+	while (myNode.firstChild) {
+		myNode.removeChild(myNode.firstChild);
+	}
+
+	var svg = d3.select("#pieChart").append("svg")
+		.attr("width", cDim.width)
+		.attr("height", cDim.height)
+		.append("g")
+		.attr("transform", "translate(" + cDim.width / 2 + "," + cDim.height / 2 + ")");
+	console.log("Loading file: " + jsonFile);
+
+
+	d3.json(jsonFile, function(error, data) {
+
+		data.forEach(function(d) {
+			// console.log(d.name);
+			// console.log(d.value);
+			// console.log(d.color);
+		});
+
+
+		var g = svg.selectAll(".arc")
+			.data(pie(data))
+			.enter().append("g")
+			.attr("class", "arc")
+			.attr("id", function(d) {
+				return "id_" + d.data.name;
+			});
+
+
+		g.append("line")
+			.attr({
+				x1: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					x = Math.cos(midAngle) * cDim.labelRadius;
+					sign = (x > 0) ? 1 : -1
+					labelX = x + (5 * sign)
+					return labelX;
+				},
+				y1: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					y = Math.sin(midAngle) * cDim.labelRadius;
+					return y;
+				},
+				x2: function(d, i) {
+					return arc.centroid(d)[0];
+				},
+				y2: function(d, i) {
+					return arc.centroid(d)[1];
+				}
+
+			})
+			.attr("stroke", "#e6e6e6")
+			.attr("stroke-width", "1");
+
+		g.append("line")
+			.attr({
+				x1: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					x = Math.cos(midAngle) * cDim.labelRadius;
+					sign = (x > 0) ? 1 : -1
+					labelX = x + (5 * sign)
+					return labelX;
+				},
+				y1: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					y = Math.sin(midAngle) * cDim.labelRadius;
+					return y;
+				},
+				x2: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					x = Math.cos(midAngle) * cDim.labelRadius;
+					sign = (x > 0) ? 1 : -1
+					labelX = x + (5 * sign)
+					if (labelX > 0) {
+						return cDim.rightLabelX - cDim.labelPadding;
+					} else {
+						return cDim.leftLabelX + cDim.labelPadding;
+					}
+				},
+				y2: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					y = Math.sin(midAngle) * cDim.labelRadius;
+					return y;
+				}
+
+			})
+			.attr("stroke", "#e6e6e6")
+			.attr("stroke-width", "1");
+
+		g.append("path")
+			.attr("d", arc)
+			.style("fill", function(d) {
+				return d.data.color
+			});
+
+		g.append("text")
+			.attr("dy", ".35em")
+			.style("text-anchor", function(d, i) {
+				centroid = arc.centroid(d);
+				midAngle = Math.atan2(centroid[1], centroid[0]);
+				x = Math.cos(midAngle) * cDim.labelRadius;
+				sign = (x > 0) ? 1 : -1
+				labelX = x + (5 * sign)
+				if (labelX > 0) {
+					return "start";
+				} else {
+					return "end";
+				}
+			})
+			.style("fill", function(d) {
+				return d.data.color;
+			})
+			.attr({
+				x: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					x = Math.cos(midAngle) * cDim.labelRadius;
+					sign = (x > 0) ? 1 : -1
+					labelX = x + (5 * sign)
+					if (labelX > 0) {
+						return cDim.rightLabelX;
+					} else {
+						return cDim.leftLabelX;
+					}
+				},
+				y: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					y = Math.sin(midAngle) * cDim.labelRadius;
+					return y + cDim.labelOffsetY;
+				},
+				'class': 'label-text-center-demi'
+			})
+			.text(function(d) {
+				var moneyFloat = parseFloat(d.value);
+				return floatToCurrency(moneyFloat);
+
+			});
+
+		g.append("text")
+			.attr("dy", ".35em")
+			.style("text-anchor", function(d, i) {
+				centroid = arc.centroid(d);
+				midAngle = Math.atan2(centroid[1], centroid[0]);
+				x = Math.cos(midAngle) * cDim.labelRadius;
+				sign = (x > 0) ? 1 : -1
+				labelX = x + (5 * sign)
+				if (labelX > 0) {
+					return "start";
+				} else {
+					return "end";
+				}
+			})
+			.style("fill", function(d) {
+				return d.data.color;
+			})
+			.attr({
+				x: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					x = Math.cos(midAngle) * cDim.labelRadius;
+					sign = (x > 0) ? 1 : -1
+					labelX = x + (5 * sign)
+					if (labelX > 0) {
+						return cDim.rightLabelX;
+					} else {
+						return cDim.leftLabelX;
+					}
+				},
+				y: function(d, i) {
+					centroid = arc.centroid(d);
+					midAngle = Math.atan2(centroid[1], centroid[0]);
+					y = Math.sin(midAngle) * cDim.labelRadius;
+					return y - cDim.labelOffsetY;
+				},
+				'class': 'label-text'
+			})
+			.text(function(d) {
+				return d.data.name;
+			});
+
+
+	});
+
+
+	$("#pieChartLabel").text("Where your Money went");
+	// add in the total in the middle
+	pieCenterLabel = svg.append("text")
+		.attr("dy", ".35em")
+		.style("text-anchor", "middle")
+		.style('fill', colors.secondary)
+		.attr({
+			'x': 0,
+			'y': -cDim.labelOffsetY,
+			'class': 'label-text-center',
+		})
+		.text(function(d) {
+			return label;
+		});
+	pieCenterMoney = svg.append("text")
+		.attr("dy", ".35em")
+		.style("text-anchor", "middle")
+		.style('fill', colors.secondary)
+		.attr({
+			'x': 0,
+			'y': cDim.labelOffsetY,
+			'class': 'label-text-center-demi',
+		})
+		.text(function(d) {
+			var moneyFloat = parseFloat(money);
+			return floatToCurrency(moneyFloat);
+		});
+}
+
+// CURRENTLY NOT WORKING
+
+function updatePieChart(jsonFile) {
+}
+
+createPieChart("js/data.json", "Total:", getDayTotal());
+setTimeout(function() {
+	console.log("timner up");
+	createPieChart("js/data2.json");
+}, 4000)
+
+
+function updateLabels(label, money) {
+	console.log(label + ":" + money);
+	pieCenterLabel[0][0].innerHTML = label;
+	pieCenterMoney[0][0].innerHTML = floatToCurrency(money);
+	console.log(pieCenterLabel[0][0].innerHTML);
+}
+
+
+
+
+/* 
+========================================
+LINE CHART
+below 
+========================================
+*/
+
+$(document).ready(function() {
+    $("#dayDateLabel").html( monthNamesLong[date.getMonth()] + " " +date.getDate());
+
+  $("#soFarHighlight").css("top", $("#dayGraph").offset().top - dayChartDim.soFarNotificationHeight);
+  $("#soFarHighlight").css("left", $("#dayGraph").offset().left);
+});
+
+var dayChartDim = {
+  AMOffsetX: 15,
+  PMOffsetX: (vizWidth / 25) * 14,
+  AMPMOffsetY: 10,
+  height: 140,
+  paddingLeft: 10,
+  paddingRight: 10,
+  soFarNotificationHeight: 60,
+}
+
+var svgAMPM = d3.select("#dayGraphAMPM").append("svg")
+  .attr("width", vizWidth)
+  .attr("height", 20);
+
+svgAMPM.append("text")
+  .style("text-anchor", "middle")
+  .style('fill', colors.secondary)
+  .attr({
+    'x': dayChartDim.AMOffsetX,
+    'y': dayChartDim.AMPMOffsetY,
+    'class': 'label-text-center',
+  })
+  .text(function(d) {
+    return "AM";
+  });
+
+svgAMPM.append("text")
+  .style("text-anchor", "middle")
+  .style('fill', colors.secondary)
+  .attr({
+    'x': dayChartDim.PMOffsetX,
+    'y': dayChartDim.AMPMOffsetY,
+    'class': 'label-text-center',
+  })
+  .text(function(d) {
+    return "PM";
+  });
+
+
+
+// generate the dataset for the x axis,
+// should be pulled from the actual dataset instead
+var xAxisTime = ['x'];
+for (var i = 0; i < 24; i++) {
+  xAxisTime.push(new Date(2014, 10, 3, i, 44, 1, 0))
+};
+var dayGraphData = ['data1'];
+for (var i = 0; i < new Date().getHours() + 1; i++) {
+  dayGraphData.push(Math.random(100));
+};
+for (var i = 0; i < 24 - new Date().getHours() + 1; i++) {
+  dayGraphData.push(null);
+};
+
+var chart1 = c3.generate({
+  bindto: '#dayGraph',
+  size: {
+    height: dayChartDim.height
+  },
+  padding: {
+    left: dayChartDim.paddingLeft,
+    right: dayChartDim.paddingRight,
+  },
+  data: {
+    x: 'x',
+    xFormat: '%Y',
+    columns: [
+      dayGraphData,
+      xAxisTime,
+    ],
+    type: 'area',
+    colors: {
+      data1: '#E6E6E6'
+    },
+  },
+  point: {
+    r: 0
+  },
+  legend: {
+    show: false
+  },
+  axis: {
+    x: {
+      padding: {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+      },
+      type: 'timeseries',
+      // if true, treat x value as localtime (Default)
+      // if false, convert to UTC internally
+      localtime: true,
+      tick: {
+        format: function(x) {
+          var hours = x.getHours();
+          var minutes = x.getMinutes();
+          var ampm = hours >= 12 ? 'pm' : 'am';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          var strTime = hours + ':' + minutes + ' ' + ampm;
+          return hours;
+        },
+        count: 24,
+      }
+    },
+    y: {
+      show: false,
+      padding: {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+      }
+    }
+  }
+});
+
+var svgSoFar = d3.select("#soFarHighlight").append("svg")
+  .attr("width", vizWidth)
+  .attr("height", dayChartDim.height + dayChartDim.soFarNotificationHeight);
+
+
+
+// NEED TO BE FIXED TO ALIGN THE SO FAR 
+// LOOK AT THE soFarDim variables to align the line
+// var percentageOffDayPassed = ((new Date().getHours() + 1) / 24 + new Date().getMinutes() / (60 * 24));
+var percentageOffDayPassed = ((new Date().getHours() + 1) / 24);
+var soFarXPosition = (vizWidth - dayChartDim.paddingLeft) * percentageOffDayPassed;
+
+var soFarDim = {
+  x: soFarXPosition,
+  yTop: dayChartDim.soFarNotificationHeight,
+  yBottom: dayChartDim.height - 30 + dayChartDim.soFarNotificationHeight,
+  topOffset: 0,
+  textLineHeight: 14,
+  textLineOffset: 10,
+}
+
+svgSoFar.append("line")
+  .attr({
+    x1: function(d, i) {
+
+      return soFarDim.x;
+    },
+    y1: function(d, i) {
+
+      return soFarDim.yTop;
+    },
+    x2: function(d, i) {
+      return soFarDim.x;
+    },
+    y2: function(d, i) {
+      return soFarDim.yBottom;
+    }
+  })
+  .attr("stroke", "#648C3D")
+  .attr("stroke-width", "2");
+
+
+svgSoFar.append("text")
+  .style("text-anchor", "middle")
+  .style('fill', "#648C3D")
+  .attr({
+    'x': soFarDim.x,
+    'y': soFarDim.yTop - (soFarDim.textLineHeight * 2) - soFarDim.textLineOffset,
+    'class': 'soFar-Label',
+  })
+  .text(function(d) {
+    return "You've";
+  });
+svgSoFar.append("text")
+  .style("text-anchor", "middle")
+  .style('fill', "#648C3D")
+  .attr({
+    'x': soFarDim.x,
+    'y': soFarDim.yTop - (soFarDim.textLineHeight * 1) - soFarDim.textLineOffset,
+    'class': 'soFar-Label',
+  })
+  .text(function(d) {
+    return "spent:";
+  });
+svgSoFar.append("text")
+  .style("text-anchor", "middle")
+  .style('fill', "#648C3D")
+  .attr({
+    'x': soFarDim.x,
+    'y': soFarDim.yTop - (soFarDim.textLineHeight * 0) - soFarDim.textLineOffset,
+    'class': 'soFar-Label number',
+  })
+  .text(function(d) {
+    return "$" + getDayTotal();
+  });
+
+
+
+
+/* 
+========================================
+WEEK CHART
+below 
+========================================
+*/
+
+var weekChartDim = {
+	AMOffsetX: 15,
+	PMOffsetX: (vizWidth / 25) * 14,
+	AMPMOffsetY: 10,
+	height: 180,
+	paddingLeft: 0,
+	paddingRight: 0,
+	soFarNotificationHeight: 60,
+	barMaxHeight: 10,
+	numberBars: 8,
+}
+var weekChart;
+
+var weekData = ['weekData'];
+
+var xAxisDays = ['x'];
+
+
+$.getJSON("weekData.json", function(json) {
+	var maxVal = 0;
+	for (var i = 0; i < weekChartDim.numberBars; i++) {
+		weekData.push(json["week1"][i]);
+
+		if (json["week1"][i] > maxVal) {
+			maxVal = json["week1"][i];
+		}
+	};
+	for (var i = 0; i < weekChartDim.numberBars; i++) {
+		xAxisDays.push(i);
+	};
+
+	weekChartDim.barMaxHeight = maxVal * 1.2;
+	setupWeekChart();
+});
+
+function setupWeekChart() {
+	console.log("Setup week chart");
+
+	weekChart = c3.generate({
+		bindto: '#weekGraph',
+		data: {
+			x: 'x',
+			xFormat: '%Y',
+			columns: [
+				weekData,
+				xAxisDays,
+			],
+			type: 'bar',
+			color: function(color, d) {
+				// if (d.index < weekChartDim.numberBars - 1) {
+				// 	return colors.secondary;
+				// } else {
+				// 	return colors.main;
+				// }
+				return colors.third;
+			},
+			labels: {
+				format: function(v) {
+					return floatToCurrency(v);
+				},
+			},
+			onclick: function(d, i) {
+
+				var weekIncrement = Math.floor(d.x / 7);
+
+				var dayOfWeek = d.x - date.getDay();
+				if (dayOfWeek < 0) {
+					dayOfWeek += 7;
+				}
+				// updateLabels();
+				setBarColors();
+				$(i).css("fill", colors.selected);
+				createPieChart("js/"+weekdayNamesShort[dayOfWeek]+".json",weekdayNamesLong[dayOfWeek], d.value);
+			}
+		},
+		bar: {
+			width: {
+				ratio: 0.9
+			}
+		},
+		size: {
+			height: weekChartDim.height
+		},
+		padding: {
+			left: weekChartDim.paddingLeft,
+			right: weekChartDim.paddingRight,
+		},
+		legend: {
+			show: false
+		},
+		axis: {
+			x: {
+				padding: {
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0.5
+				},
+				tick: {
+					format: function(v) {
+						var weekIncrement = Math.floor(v / 7);
+
+						var dayOfWeek = v - date.getDay();
+						if (dayOfWeek < 0) {
+							dayOfWeek += 7;
+						}
+						return weekdayNamesShort[dayOfWeek];
+					},
+				}
+			},
+			y: {
+				max: weekChartDim.barMaxHeight,
+				show: false,
+				padding: {
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0
+				}
+			},
+		},
+		transition: {
+			show: false,
+			duration: 10
+		},
+		interaction: {
+			enabled: true
+		},
+		tooltip: {
+			show: false
+		},
+
+
+	});
+	var oneWeekAgo = new Date();
+	oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+	$("#weekDateLabel").html(oneWeekAgo.getDate() + " " + monthNames[oneWeekAgo.getMonth()] + " - " + date.getDate() + " " + monthNames[date.getMonth()]);
+
+
+}
+$(document).ready(function() {
+	$('.c3-chart-text').currency();
+	$("#testImage").click(function() {
+		console.log(this);
+		console.log(d3.mouse());
+	});
+});
+
+/*
+,
+			onclick: function(d, i) {
+
+				var weekIncrement = Math.floor(d.x / 7);
+
+				var dayOfWeek = d.x - date.getDay();
+				if (dayOfWeek < 0) {
+					dayOfWeek += 7;
+				}
+				updateLabels(weekdayNamesLong[dayOfWeek], d.value);
+				setBarColors();
+				$(i).css("fill", colors.selected);
+			}
+
+			*/
+
+
+
+
+/* 
+========================================
+MONTH CHART
+below 
+========================================
+*/
+
+var monthChartDim = {
+	AMOffsetX: 15,
+	PMOffsetX: (vizWidth / 25) * 14,
+	AMPMOffsetY: 10,
+	height: 180,
+	paddingLeft: 0,
+	paddingRight: 0,
+	soFarNotificationHeight: 60,
+	barMaxHeight: 10,
+	numberBars: 5,
+	barWidth: 0.9,
+}
+var monthChart;
+
+var monthData = ['monthData'];
+
+var xAxisMonths = ['x'];
+
+
+$.getJSON("monthData.json", function(json) {
+	var maxVal = 0;
+	for (var i = 0; i < monthChartDim.numberBars; i++) {
+		monthData.push(json["months"][i]);
+		if (json["months"][i] > maxVal) {
+			maxVal = json["months"][i];
+		}
+	};
+	for (var i = 0; i < monthChartDim.numberBars; i++) {
+		xAxisMonths.push(date.getMonth() - i);
+	};
+	console.log(xAxisMonths);
+	monthChartDim.barMaxHeight = maxVal * 1.2;
+	setupMonthChart();
+	// setTimeout(setBarColors, 100);
+
+});
+
+function setupMonthChart() {
+	console.log("Setup month chart");
+	monthChart = c3.generate({
+		bindto: '#monthGraph',
+		data: {
+			x: 'x',
+			columns: [
+				monthData,
+				xAxisMonths,
+			],
+			type: 'bar',
+			color: function(color, d) {
+				// if (d.index < monthChartDim.numberBars - 1) {
+				// 	return colors.secondary;
+				// } else {
+				// 	return colors.main;
+				// }
+				return colors.third;
+			},
+			labels: {
+				format: function(v) {
+					return floatToCurrency(v);
+				},
+				fill: "#ff00ff",
+			},
+			onclick: function(d, i) {
+				// console.log("onclick", d, i);
+				// updateLabels();
+				setBarColors();
+				$(i).css("fill", colors.selected);
+				createPieChart("js/" + monthNames[d.x] + ".json",monthNamesLong[d.x], d.value);
+
+			}
+		},
+		bar: {
+			width: {
+				ratio: monthChartDim.barWidth
+			}
+		},
+		size: {
+			height: monthChartDim.height
+		},
+		padding: {
+			left: monthChartDim.paddingLeft,
+			right: monthChartDim.paddingRight,
+		},
+		legend: {
+			show: false
+		},
+		axis: {
+			x: {
+				padding: {
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0.5
+				},
+				tick: {
+					show: false,
+					centered: true,
+					format: function(v) {
+						return monthNames[v];
+					},
+				}
+			},
+			y: {
+				max: monthChartDim.barMaxHeight,
+				show: false,
+				padding: {
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0
+				}
+			},
+		},
+		transition: {
+			show: false,
+			duration: 1,
+		},
+		interaction: {
+			enabled: true
+		},
+		tooltip: {
+			show: false
+		}
+	});
+	var oneWeekAgo = new Date();
+	oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+	$("#monthDateLabel").html(monthNames[date.getMonth() - 3] + " - " + monthNames[date.getMonth()]);
+}
+
+
+
+function setBarColors() {
+
+	$(".c3-bar").css("fill", colors.third);
+
+}
+// ugly hack to get around the fade in the bars that sets the color
+// 
+
+$(document).ready(function() {
+	$('.c3-chart-text').currency();
+
+});
 }
