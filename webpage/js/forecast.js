@@ -17,11 +17,11 @@ var dayPosition = (currentDay / daysThisMonth) * $("#forecast").width();
 // set the header to todays month and set the forecast values
 // $("#forecastHeader").text(monthNamesLong[month - 1] + " Bill Forecast");
 console.log();
-$("#forecastMonthLabel").text("This Month: $"+ (bill.savingsGoal));
+$("#forecastMonthLabel").text("This Month: $"+ (dashboardData[0].savingsGoal));
 
 $("#forecastSoFarLabelValue").text(" $" + getBillSofar(date.getDay()));
-$("#forecastTotalLabelValue").text("  $" + (bill.savingsGoal - getBillSofar(date.getDay())));
-$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / bill.savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / bill.savingsGoal * 100);
+$("#forecastTotalLabelValue").text("  $" + (dashboardData[0].savingsGoal - getBillSofar(date.getDay())));
+$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100);
 
 // forecastSVG.append("line")
 // 	.attr({
