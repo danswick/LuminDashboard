@@ -1,4 +1,3 @@
-function main() {
 /* 
 ========================================
 MONEY
@@ -74,37 +73,6 @@ var monthNamesLong = ["January", "February", "March", "April", "May", "June",
 
 var weekdayNamesShort = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 var weekdayNamesLong = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-
-
-
-/* 
-========================================
-FORECAST
-below 
-========================================
-*/
-
-var billSoFarValue = 60.34;
-var billForecastValue = 100;
-
-var progressBarPadding = (vizWidth - $("#forecast").width()) / 2;
-
-var month = date.getMonth() + 1;
-var currentDay = date.getDate();
-
-
-var daysThisMonth = daysInMonth(date.getMonth() + 1, date.getYear());
-
-var dayPosition = (currentDay / daysThisMonth) * $("#forecast").width();
-
-console.log();
-$("#forecastMonthLabel").text("This Month: $"+ (dashboardData[0].savingsGoal));
-
-$("#forecastSoFarLabelValue").text(" $" + getBillSofar(date.getDay()));
-$("#forecastTotalLabelValue").text("  $" + (dashboardData[0].savingsGoal - getBillSofar(date.getDay())));
-$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100);
-
 
 
 
@@ -387,6 +355,37 @@ function updateLabels(label, money) {
 	pieCenterMoney[0][0].innerHTML = floatToCurrency(money);
 	console.log(pieCenterLabel[0][0].innerHTML);
 }
+
+
+
+
+/* 
+========================================
+FORECAST
+below 
+========================================
+*/
+
+var billSoFarValue = 60.34;
+var billForecastValue = 100;
+
+var progressBarPadding = (vizWidth - $("#forecast").width()) / 2;
+
+var month = date.getMonth() + 1;
+var currentDay = date.getDate();
+
+
+var daysThisMonth = daysInMonth(date.getMonth() + 1, date.getYear());
+
+var dayPosition = (currentDay / daysThisMonth) * $("#forecast").width();
+
+console.log();
+$("#forecastMonthLabel").text("This Month: $"+ (dashboardData[0].savingsGoal));
+
+$("#forecastSoFarLabelValue").text(" $" + getBillSofar(date.getDay()));
+$("#forecastTotalLabelValue").text("  $" + (dashboardData[0].savingsGoal - getBillSofar(date.getDay())));
+$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100);
+
 
 
 
@@ -928,4 +927,265 @@ $(document).ready(function() {
 	$('.c3-chart-text').currency();
 
 });
+
+
+
+/* 
+========================================
+CALENDAR CHART
+below 
+========================================
+*/
+
+
+var calDim = {
+	boxWidth: vizWidth * 0.1,
+	boxHeight: vizWidth * 0.1,
+	leftPadding: vizWidth * 0.15,
+	topPadding:0,
+	boxRadius: 0,
+	boxPadding: 2,
+	passedColor: "#e6e6e6",
+	upcomingColor: "#ffffff",
+	todaysColor: "#648C3C",
+	lastDayColor: "#D88D2A",
+	labelColor: "#ffffff",
+	labelSpacing: vizWidth * 0.02,
 }
+
+$("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
+;
+var calendarSVG = d3.select("#calendarChart").append("svg")
+	.attr("width", vizWidth)
+	.attr("height", $("#calendarChart").css("height"));
+
+function drawCalendar() {
+
+	var calendarDate = new Date();
+
+	var firstDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1);
+	var lastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0);
+
+	var numDays = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate();
+	var daysPerWeek = 7;
+	var startDay = date.getDay() +1;
+	var boxController = {
+		y: 0,
+		x: startDay
+	};
+	var daysPassed = calendarDate.getDate() + 5;
+	var boxColor = calDim.passedColor;
+
+
+	for (var i = 0; i < numDays; i++) {
+
+		if (boxController.x % daysPerWeek == 0) {
+			boxController.x = 0;
+			boxController.y++;
+		}
+
+		var rect = calendarSVG.append("rect")
+			.attr("rx", calDim.boxRadius)
+			.attr("ry", calDim.boxRadius)
+			.attr("x", (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding)
+			.attr("y", (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding)
+			.attr("width", calDim.boxWidth)
+			.attr("height", calDim.boxHeight)
+			.style("fill", boxColor);
+
+		if (i == daysPassed - 1) {
+			rect.style("fill", calDim.todaysColor);
+
+			var todaysSpeachBubble = {
+				x: (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+				y: (calDim.boxHeight + calDim.boxPadding) * boxController.y - (calDim.boxHeight+calDim.boxPadding)+calDim.topPadding,
+				textPadding: 5,
+
+			}
+
+			calendarSVG.append("path").attr("d", "M48,34.401h-92c-11.046,0-21-7.954-21-19v-39c0-11.046,9.954-21,21-21h35.342l10.45-9.803l10.45,9.803H48c11.046,0,19,9.954,19,21v39C67,26.447,59.046,34.401,48,34.401z")
+				.attr("stroke", calDim.todaysColor)
+				.attr("fill", "#ffffff")
+				.attr("transform", "translate(" + todaysSpeachBubble.x + "," + todaysSpeachBubble.y + ")" + "rotate(180)" + "scale(0.5)")
+				.attr("stroke-width", "2");
+
+			calendarSVG.append("text")
+				.attr("dy", ".35em")
+				.style("text-anchor", "middle")
+				.style('fill', calDim.todaysColor)
+				.attr({
+					'x': todaysSpeachBubble.x,
+					'y': todaysSpeachBubble.y - todaysSpeachBubble.textPadding,
+					'class': 'label-text-center-calendar',
+				})
+				.text(function(d) {
+					return "Spent:";
+				});
+
+			calendarSVG.append("text")
+				.attr("dy", ".35em")
+				.style("text-anchor", "middle")
+				.style('fill', calDim.todaysColor)
+				.attr({
+					'x': todaysSpeachBubble.x,
+					'y': todaysSpeachBubble.y + todaysSpeachBubble.textPadding + 5,
+					'class': 'label-text-center-calendar-speechBubble',
+				})
+				.text(function(d) {
+					return floatToCurrency(getBillSofar(date.getDay()));
+				});
+
+
+			calendarSVG.append("text")
+				.attr("dy", ".35em")
+				.style("text-anchor", "middle")
+				.style('fill', calDim.labelColor)
+				.attr({
+					'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+					'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 - calDim.labelSpacing,
+					'class': 'label-text-center-calendar',
+				})
+				.text(function(d) {
+					return monthNames[date.getMonth()];
+				});
+			calendarSVG.append("text")
+				.attr("dy", ".35em")
+				.style("text-anchor", "middle")
+				.style('fill', calDim.labelColor)
+				.attr({
+					'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+					'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing,
+					'class': 'label-text-center-calendar',
+				})
+				.text(function(d) {
+					return date.getDate();
+				});
+		}
+
+		if (i >= daysPassed - 1) {
+			if (i == numDays - 1) {
+				rect.style("fill", calDim.lastDayColor);
+				calendarSVG.append("text")
+					.attr("dy", ".35em")
+					.style("text-anchor", "middle")
+					.style('fill', calDim.lastDayColor)
+					.attr({
+						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 20,
+						'class': 'label-text-center-calendar',
+					})
+					.text(function(d) {
+						return "Forecast:";
+					});
+
+				calendarSVG.append("text")
+					.attr("dy", ".35em")
+					.style("text-anchor", "middle")
+					.style('fill', calDim.lastDayColor)
+					.attr({
+						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 35,
+						'class': 'label-text-center-calendar-speechBubble',
+					})
+					.text(function(d) {
+						return "$" + (getEstimatedBill());
+					});
+				calendarSVG.append("text")
+					.attr("dy", ".35em")
+					.style("text-anchor", "middle")
+					.style('fill', calDim.labelColor)
+					.attr({
+						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 - calDim.labelSpacing,
+						'class': 'label-text-center-calendar',
+					})
+					.text(function(d) {
+						return monthNames[lastDay.getMonth() + 1];
+					});
+				calendarSVG.append("text")
+					.attr("dy", ".35em")
+					.style("text-anchor", "middle")
+					.style('fill', calDim.labelColor)
+					.attr({
+						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing,
+						'class': 'label-text-center-calendar',
+					})
+					.text(function(d) {
+						return lastDay.getDate();
+					});
+			} else {
+				boxColor = calDim.upcomingColor;
+				rect.style("stroke-width", 1)
+					.style("stroke", "rgb(230,230,230)");
+			}
+		}
+
+		boxController.x++;
+	};
+}
+
+drawCalendar();
+
+
+
+/* 
+========================================
+TABS
+below 
+========================================
+*/
+
+// $(".tab-center").css("border-radius","0");
+
+// $(".tab-left").css("border-left","2px");
+// $(".tab-left").css("border-right","0px");
+
+// $(".tab-right").css("border-left","0");
+// $(".tab-right").css("border-right","2px");
+
+
+
+
+
+/* 
+========================================
+PARSE CHART
+below 
+========================================
+*/
+
+Parse.initialize("MNpQVek7y7MsaRLq7fKEpcZb9aNViTg22qPDyKil", "g3h61Nz2rhar2tib6JjVnf2oEAlwGH41yCY2p3M0");
+
+var PowerData = Parse.Object.extend("Power2");
+
+
+
+function findDeviceDateRange(deviceType, startDate, endDate) {
+	var query = new Parse.Query(PowerData);
+
+	console.log("Type: " + deviceType);
+	console.log("Start: " + new Date(startDate));
+	console.log("End: " + endDate);
+
+	 query.limit(1000);
+	query.equalTo("deviceType", deviceType);
+	query.lessThan("createdAt", endDate);
+	query.greaterThan("createdAt", new Date(startDate));
+
+	 query.find({
+		success: function(object) {
+			// Successfully retrieved the object.
+			console.log(object.id);
+
+		},
+		error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		}
+	});
+}
+
+
+// findDeviceDateRange("AC", new Date().setMonth(date.getMonth() - 1), new Date());
+// findDeviceDateRange("AC", new Date().setDate(date.getDate() - 2), new Date());
+
