@@ -1,6 +1,6 @@
 
 // Load the data with Tabletop, the app is in the showInfo callback
-var URL = "1MTobhIvX9wIvyYeF3X4ixcleb13eQcL_Zs5zd88W454";
+var URL = '1kL43OgvgJVpEdylU2mX-kPUwHpyCPBCITgP-mLWVRx0';
 Tabletop.init( { 
 	key: URL, 
 	callback: showInfo,
@@ -26,6 +26,35 @@ function showInfo(data, tabletop){
 
 
 function chartFunctions() {
+
+var applianceArray = [{
+      "name": dashboardData[0].app1Name,
+      "value": dashboardData[0].app1Value,
+      "color": "#00A8AB",
+      "icon": "washer.svg"
+    }, {
+      "name": dashboardData[0].app2Name,
+      "value": dashboardData[0].app2Value,
+      "color": "#00A8AB",
+      "icon": "washer.svg"
+    }, {
+      "name": dashboardData[0].app3Name,
+      "value": dashboardData[0].app3Value,
+      "color": "#00A8AB",
+      "icon": "washer.svg"
+    }, {
+      "name": dashboardData[0].app4Name,
+      "value": dashboardData[0].app4Value,
+      "color": "#00A8AB",
+      "icon": "washer.svg"
+    }, {
+      "name": dashboardData[0].app5Name,
+      "value": dashboardData[0].app5Value,
+      "color": "#00A8AB",
+      "icon": "washer.svg"
+    }];
+
+var appliances = JSON.stringify(applianceArray);
 
 /* 
 ========================================
@@ -982,7 +1011,7 @@ var calDim = {
 	labelSpacing: vizWidth * 0.02,
 }
 
-$("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
+$("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*5+calDim.boxHeight/2+"px");
 ;
 var calendarSVG = d3.select("#calendarChart").append("svg")
 	.attr("width", vizWidth)
