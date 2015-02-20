@@ -23,33 +23,44 @@ function showInfo(data, tabletop){
 	chartFunctions();
 }
 
+function getUrlVars() {
+	var vars = [], hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		for(var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split('=');
+			vars.push(hash[0]);
+			vars[hash[0]] = hash[1];
+		}
+		return vars;
+}
 
+var userID = parseInt(getUrlVars()["userID"]) - 1;
 
 function chartFunctions() {
 
 var applianceArray = [{
-      "name": dashboardData[0].app1Name,
-      "value": dashboardData[0].app1Value,
+      "name": dashboardData[userID].app1Name,
+      "value": dashboardData[userID].app1Value,
       "color": "#00A8AB",
       "icon": "washer.svg"
     }, {
-      "name": dashboardData[0].app2Name,
-      "value": dashboardData[0].app2Value,
+      "name": dashboardData[userID].app2Name,
+      "value": dashboardData[userID].app2Value,
       "color": "#C25700",
       "icon": "washer.svg"
     }, {
-      "name": dashboardData[0].app3Name,
-      "value": dashboardData[0].app3Value,
+      "name": dashboardData[userID].app3Name,
+      "value": dashboardData[userID].app3Value,
       "color": "#0071AD",
       "icon": "washer.svg"
     }, {
-      "name": dashboardData[0].app4Name,
-      "value": dashboardData[0].app4Value,
+      "name": dashboardData[userID].app4Name,
+      "value": dashboardData[userID].app4Value,
       "color": "#D88D2A",
       "icon": "washer.svg"
     }, {
-      "name": dashboardData[0].app5Name,
-      "value": dashboardData[0].app5Value,
+      "name": dashboardData[userID].app5Name,
+      "value": dashboardData[userID].app5Value,
       "color": "#787878",
       "icon": "washer.svg"
     }];
@@ -77,9 +88,9 @@ var colors = {
 
 // fixed typos for column headings
 function getMonthTotal() {
-	var supply = dashboardData[0].monthTotalKwh * dashboardData[0].electricSupplyCharge + dashboardData[0].monthTotalKwh * dashboardData[0].transmissionServicesCharge + dashboardData[0].purchasedElectricityAdjustment;
-	var delivery = dashboardData[0].customerCharge + dashboardData[0].standardMeterCharge + dashboardData[0].monthTotalKwh * dashboardData[0].distributionFacilitiesCharge + dashboardData[0].monthTotalKwh * dashboardData[0].ILDistributionCharge;
-	var taxesFees = dashboardData[0].monthTotalKwh * dashboardData[0].environmentalCostRecoveryAdjustment + dashboardData[0].monthTotalKwh * dashboardData[0].energyEfficientProgram + dashboardData[0].franchiseCost + dashboardData[0].stateTax + dashboardData[0].municipalTax;
+	var supply = dashboardData[userID].monthTotalKwh * dashboardData[userID].electricSupplyCharge + dashboardData[userID].monthTotalKwh * dashboardData[userID].transmissionServicesCharge + dashboardData[userID].purchasedElectricityAdjustment;
+	var delivery = dashboardData[userID].customerCharge + dashboardData[userID].standardMeterCharge + dashboardData[userID].monthTotalKwh * dashboardData[userID].distributionFacilitiesCharge + dashboardData[userID].monthTotalKwh * dashboardData[userID].ILDistributionCharge;
+	var taxesFees = dashboardData[userID].monthTotalKwh * dashboardData[userID].environmentalCostRecoveryAdjustment + dashboardData[userID].monthTotalKwh * dashboardData[userID].energyEfficientProgram + dashboardData[userID].franchiseCost + dashboardData[userID].stateTax + dashboardData[userID].municipalTax;
 	var total = supply + delivery + taxesFees;
 	return total.toFixed(2);
 }
@@ -101,7 +112,8 @@ function getEstimatedBill(){
 }
 
 function getBillSofar(numDays) {
-	var total = (getMonthTotal() / daysInMonth(date.getMonth() + 1, date.getYear())) * numDays;
+	var total = dashboardData[userID].spentMonth;
+	// var total = (getMonthTotal() / daysInMonth(date.getMonth() + 1, date.getYear())) * numDays;
 	return total.toFixed(2);
 }
 
@@ -439,11 +451,11 @@ var daysThisMonth = daysInMonth(date.getMonth() + 1, date.getYear());
 var dayPosition = (currentDay / daysThisMonth) * $("#forecast").width();
 
 console.log();
-$("#forecastMonthLabel").text("This Month: $"+ (dashboardData[0].savingsGoal));
+$("#forecastMonthLabel").text("This Month: $"+ (dashboardData[userID].savingsGoal));
 
 $("#forecastSoFarLabelValue").text(" $" + getBillSofar(date.getDay()));
-$("#forecastTotalLabelValue").text("  $" + (dashboardData[0].savingsGoal - getBillSofar(date.getDay())));
-$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / dashboardData[0].savingsGoal * 100);
+$("#forecastTotalLabelValue").text("  $" + (dashboardData[userID].savingsGoal - getBillSofar(date.getDay())));
+$("#forecastProgressBar").css('width', getBillSofar(date.getDay()) / dashboardData[userID].savingsGoal * 100 + '%').attr('aria-valuenow', getBillSofar(date.getDay()) / dashboardData[userID].savingsGoal * 100);
 
 
 
@@ -1011,7 +1023,7 @@ var calDim = {
 	labelSpacing: vizWidth * 0.02,
 }
 
-$("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*5+calDim.boxHeight/2+"px");
+$("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
 ;
 var calendarSVG = d3.select("#calendarChart").append("svg")
 	.attr("width", vizWidth)
