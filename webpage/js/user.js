@@ -35,22 +35,22 @@ var applianceArray = [{
     }, {
       "name": dashboardData[0].app2Name,
       "value": dashboardData[0].app2Value,
-      "color": "#00A8AB",
+      "color": "#C25700",
       "icon": "washer.svg"
     }, {
       "name": dashboardData[0].app3Name,
       "value": dashboardData[0].app3Value,
-      "color": "#00A8AB",
+      "color": "#0071AD",
       "icon": "washer.svg"
     }, {
       "name": dashboardData[0].app4Name,
       "value": dashboardData[0].app4Value,
-      "color": "#00A8AB",
+      "color": "#D88D2A",
       "icon": "washer.svg"
     }, {
       "name": dashboardData[0].app5Name,
       "value": dashboardData[0].app5Value,
-      "color": "#00A8AB",
+      "color": "#787878",
       "icon": "washer.svg"
     }];
 
@@ -184,20 +184,20 @@ function createPieChart(jsonFile, label, money) {
 		.attr("height", cDim.height)
 		.append("g")
 		.attr("transform", "translate(" + cDim.width / 2 + "," + cDim.height / 2 + ")");
-	console.log("Loading file: " + jsonFile);
+	console.log("Loading file: " + applianceArray);
 
 
-	d3.json(jsonFile, function(error, data) {
+	// d3.json(jsonFile, function(error, data) {
 
-		data.forEach(function(d) {
+		// data.forEach(function(d) {
 			// console.log(d.name);
 			// console.log(d.value);
 			// console.log(d.color);
-		});
+		// });
 
 
 		var g = svg.selectAll(".arc")
-			.data(pie(data))
+			.data(pie(applianceArray))
 			.enter().append("g")
 			.attr("class", "arc")
 			.attr("id", function(d) {
@@ -364,7 +364,7 @@ function createPieChart(jsonFile, label, money) {
 			});
 
 
-	});
+	// commenting out d3.json function });
 
 
 	$("#pieChartLabel").text("Where your Money went");
@@ -401,7 +401,7 @@ function createPieChart(jsonFile, label, money) {
 function updatePieChart(jsonFile) {
 }
 
-createPieChart("js/data.json", "Total:", getDayTotal());
+createPieChart(applianceArray, "Total:", getDayTotal());
 setTimeout(function() {
 	console.log("timner up");
 	createPieChart("js/data2.json");
