@@ -6,7 +6,7 @@ $('#idForm').submit(function( e ) {
 		location.href = 'http://deltalumin.com/webpage/?' + $(this).serialize();
 		console.log(ID);
 	} else {
-		alert("Please enter a valid ID number (1-4 for now)"); // need to update alert during pilot phase
+		document.getElementById('warningText').innerHTML = "Please enter a valid ID number (1-4 for now)."; 
 	}
 });
 
