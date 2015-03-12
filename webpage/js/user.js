@@ -74,7 +74,7 @@ below
 ========================================
 */
 
-var vizWidth=$(window).width()*0.95;
+var vizWidth=$('.visualizationSection').width()*0.95;
 $(".vizDivider").css("height",$(window).width()*0.025);
 
 var date = new Date();
@@ -1034,7 +1034,7 @@ function drawCalendar() {
 	var calendarDate = new Date();
 
 	var firstDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1);
-	var lastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0);
+	var lastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0); // make sure it's not the end of NEXT month by using calendarDate.getMonth() + 1 
 
 	var numDays = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate();
 	var daysPerWeek = 7;
@@ -1170,7 +1170,7 @@ function drawCalendar() {
 						'class': 'label-text-center-calendar',
 					})
 					.text(function(d) {
-						return monthNames[lastDay.getMonth() + 1];
+						return monthNames[lastDay.getMonth()]; // remove +1 here because we fixed it above when lastDay was declared
 					});
 				calendarSVG.append("text")
 					.attr("dy", ".35em")

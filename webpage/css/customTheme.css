@@ -17,11 +17,15 @@ body {
 .make-it-proper-width{
 	width: 95%;
 }
+
 .container-fluid{
 	  border-style: none;
 	  width: 100%;
 	  padding-right: 0px;
 	  padding-left: 0px;
+	  float: left;
+	  width: 45%;
+	  margin: 1%;
 }
 .navbar-default{ /* assigning the top bar to the entire navbar div element */
     text-align: center;
@@ -58,12 +62,11 @@ body {
 
 
 .visualizationSection {
-  padding: 0px 0px;
-  text-align: center;
-    background: #ffffff;
-    margin-left: auto; 
+	padding: 0px 0px;
+	text-align: center;
+	background: #ffffff;
+	margin-left: auto; 
 	margin-right: auto;
-	width: 95%;
 }
 .vizDivider {
   margin-left: auto;
@@ -337,4 +340,17 @@ border-radius: 0px;
 
 .c3-chart-text{
 	c
+}
+
+
+/*===========================================
+MEDIA QUERIES 
+===========================================*/
+
+@media screen and (max-width: 620px) {
+	.container-fluid{
+	  float: none;
+	  width: 97%;
+	  margin: 1%;
+}
 }
