@@ -18,6 +18,11 @@ body {
 	width: 100%;
 }
 
+.container, .navbar, .navbar-inverse {
+	background-color: #687079;
+	background-image: none;
+}
+
 .container-fluid{
 	  border-style: none;
 	  width: 100%;
@@ -47,7 +52,6 @@ body {
 }
 
 .navbar-inverse{
-	background-color: #00ff00;
 	border:none;
 	margin-bottom: 0;
 }
