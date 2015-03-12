@@ -468,7 +468,7 @@ below
 ========================================
 */
 
-var dayChartDim = {
+/*var dayChartDim = {
   AMOffsetX: 15,
   PMOffsetX: (vizWidth / 25) * 14,
   AMPMOffsetY: 10,
@@ -591,18 +591,18 @@ var chart1 = c3.generate({
       }
     }
   }
-});
+});*/
 
-var svgSoFar = d3.select("#soFarHighlight").append("svg")
+/*var svgSoFar = d3.select("#soFarHighlight").append("svg")
   .attr("width", vizWidth)
-  .attr("height", dayChartDim.height + dayChartDim.soFarNotificationHeight);
+  .attr("height", dayChartDim.height + dayChartDim.soFarNotificationHeight);*/
 
 
 
 // NEED TO BE FIXED TO ALIGN THE SO FAR 
 // LOOK AT THE soFarDim variables to align the line
 // var percentageOffDayPassed = ((new Date().getHours() + 1) / 24 + new Date().getMinutes() / (60 * 24));
-var percentageOffDayPassed = ((new Date().getHours() + 1) / 24);
+/*var percentageOffDayPassed = ((new Date().getHours() + 1) / 24);
 var soFarXPosition = (vizWidth - dayChartDim.paddingLeft) * percentageOffDayPassed;
 
 var soFarDim = {
@@ -612,9 +612,9 @@ var soFarDim = {
   topOffset: 0,
   textLineHeight: 14,
   textLineOffset: 10,
-}
+};*/
 
-svgSoFar.append("line")
+/*svgSoFar.append("line")
   .attr({
     x1: function(d, i) {
 
@@ -667,7 +667,7 @@ svgSoFar.append("text")
   })
   .text(function(d) {
     return "$" + getDayTotal();
-  });
+  });*/
 
 
 
@@ -1141,7 +1141,7 @@ function drawCalendar() {
 					.style('fill', calDim.lastDayColor)
 					.attr({
 						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
-						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 20,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 30,
 						'class': 'label-text-center-calendar',
 					})
 					.text(function(d) {
@@ -1154,7 +1154,7 @@ function drawCalendar() {
 					.style('fill', calDim.lastDayColor)
 					.attr({
 						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
-						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 35,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 45,
 						'class': 'label-text-center-calendar-speechBubble',
 					})
 					.text(function(d) {
