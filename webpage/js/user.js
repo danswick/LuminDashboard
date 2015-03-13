@@ -6,7 +6,7 @@ Tabletop.init( {
 	callback: showInfo,
 	debug: true, 
 	parseNumbers: true, 
-	simpleSheet: true 
+	simpleSheet: true
 } );
 
 function showInfo(data, tabletop){
