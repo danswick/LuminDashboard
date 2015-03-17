@@ -192,7 +192,7 @@ function createPieChart(jsonFile, label, money) {
 	}
 
 	var svg = d3.select("#pieChart").append("svg")
-		.attr("class", "pie-chart")
+		.attr("class", "pie-chart" + ( userID + 1 ))
 		.attr("width", cDim.width)
 		.attr("height", cDim.height)
 		.append("g")
@@ -1027,7 +1027,7 @@ var calDim = {
 $("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
 ;
 var calendarSVG = d3.select("#calendarChart").append("svg")
-	.attr("class", "calendar-chart")
+	.attr("class", "calendar-chart" + (userID + 1))
 	.attr("width", vizWidth)
 	.attr("height", $("#calendarChart").css("height"));
 
