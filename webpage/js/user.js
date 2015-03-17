@@ -1,8 +1,8 @@
 
 // Load the data with Tabletop, the app is in the showInfo callback
-var URL = '1kL43OgvgJVpEdylU2mX-kPUwHpyCPBCITgP-mLWVRx0';
+var sheetsURL = '1kL43OgvgJVpEdylU2mX-kPUwHpyCPBCITgP-mLWVRx0';
 Tabletop.init( { 
-	key: URL, 
+	key: sheetsURL, 
 	callback: showInfo,
 	debug: true, 
 	parseNumbers: true, 
@@ -192,6 +192,7 @@ function createPieChart(jsonFile, label, money) {
 	}
 
 	var svg = d3.select("#pieChart").append("svg")
+		.attr("class", "pie-chart")
 		.attr("width", cDim.width)
 		.attr("height", cDim.height)
 		.append("g")
@@ -1026,6 +1027,7 @@ var calDim = {
 $("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
 ;
 var calendarSVG = d3.select("#calendarChart").append("svg")
+	.attr("class", "calendar-chart")
 	.attr("width", vizWidth)
 	.attr("height", $("#calendarChart").css("height"));
 
