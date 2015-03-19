@@ -1,12 +1,12 @@
 
 // Load the data with Tabletop, the app is in the showInfo callback
-var URL = '1kL43OgvgJVpEdylU2mX-kPUwHpyCPBCITgP-mLWVRx0';
+var sheetsURL = '1kL43OgvgJVpEdylU2mX-kPUwHpyCPBCITgP-mLWVRx0';
 Tabletop.init( { 
-	key: URL, 
+	key: sheetsURL, 
 	callback: showInfo,
 	debug: true, 
 	parseNumbers: true, 
-	simpleSheet: true 
+	simpleSheet: true
 } );
 
 function showInfo(data, tabletop){
@@ -74,7 +74,7 @@ below
 ========================================
 */
 
-var vizWidth=$(window).width()*0.95;
+var vizWidth=$('.visualizationSection').width()*0.95;
 $(".vizDivider").css("height",$(window).width()*0.025);
 
 var date = new Date();
@@ -192,6 +192,7 @@ function createPieChart(jsonFile, label, money) {
 	}
 
 	var svg = d3.select("#pieChart").append("svg")
+		.attr("class", "pie-chart" + ( userID + 1 ))
 		.attr("width", cDim.width)
 		.attr("height", cDim.height)
 		.append("g")
@@ -468,7 +469,7 @@ below
 ========================================
 */
 
-var dayChartDim = {
+/*var dayChartDim = {
   AMOffsetX: 15,
   PMOffsetX: (vizWidth / 25) * 14,
   AMPMOffsetY: 10,
@@ -591,18 +592,18 @@ var chart1 = c3.generate({
       }
     }
   }
-});
+});*/
 
-var svgSoFar = d3.select("#soFarHighlight").append("svg")
+/*var svgSoFar = d3.select("#soFarHighlight").append("svg")
   .attr("width", vizWidth)
-  .attr("height", dayChartDim.height + dayChartDim.soFarNotificationHeight);
+  .attr("height", dayChartDim.height + dayChartDim.soFarNotificationHeight);*/
 
 
 
 // NEED TO BE FIXED TO ALIGN THE SO FAR 
 // LOOK AT THE soFarDim variables to align the line
 // var percentageOffDayPassed = ((new Date().getHours() + 1) / 24 + new Date().getMinutes() / (60 * 24));
-var percentageOffDayPassed = ((new Date().getHours() + 1) / 24);
+/*var percentageOffDayPassed = ((new Date().getHours() + 1) / 24);
 var soFarXPosition = (vizWidth - dayChartDim.paddingLeft) * percentageOffDayPassed;
 
 var soFarDim = {
@@ -612,9 +613,9 @@ var soFarDim = {
   topOffset: 0,
   textLineHeight: 14,
   textLineOffset: 10,
-}
+};*/
 
-svgSoFar.append("line")
+/*svgSoFar.append("line")
   .attr({
     x1: function(d, i) {
 
@@ -667,7 +668,7 @@ svgSoFar.append("text")
   })
   .text(function(d) {
     return "$" + getDayTotal();
-  });
+  });*/
 
 
 
@@ -1026,6 +1027,7 @@ var calDim = {
 $("#calendarChart").css("height", (calDim.boxHeight+calDim.boxPadding)*7+calDim.boxHeight/2+"px");
 ;
 var calendarSVG = d3.select("#calendarChart").append("svg")
+	.attr("class", "calendar-chart" + (userID + 1))
 	.attr("width", vizWidth)
 	.attr("height", $("#calendarChart").css("height"));
 
@@ -1034,7 +1036,7 @@ function drawCalendar() {
 	var calendarDate = new Date();
 
 	var firstDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1);
-	var lastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0);
+	var lastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0); // make sure it's not the end of NEXT month by using calendarDate.getMonth() + 1 
 
 	var numDays = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate();
 	var daysPerWeek = 7;
@@ -1141,7 +1143,7 @@ function drawCalendar() {
 					.style('fill', calDim.lastDayColor)
 					.attr({
 						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
-						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 20,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 30,
 						'class': 'label-text-center-calendar',
 					})
 					.text(function(d) {
@@ -1154,7 +1156,7 @@ function drawCalendar() {
 					.style('fill', calDim.lastDayColor)
 					.attr({
 						'x': (calDim.boxWidth + calDim.boxPadding) * boxController.x + calDim.leftPadding + calDim.boxWidth / 2,
-						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 35,
+						'y': (calDim.boxHeight + calDim.boxPadding) * boxController.y + calDim.topPadding + calDim.boxHeight / 2 + calDim.labelSpacing + 45,
 						'class': 'label-text-center-calendar-speechBubble',
 					})
 					.text(function(d) {
@@ -1170,7 +1172,7 @@ function drawCalendar() {
 						'class': 'label-text-center-calendar',
 					})
 					.text(function(d) {
-						return monthNames[lastDay.getMonth() + 1];
+						return monthNames[lastDay.getMonth()]; // remove +1 here because we fixed it above when lastDay was declared
 					});
 				calendarSVG.append("text")
 					.attr("dy", ".35em")
